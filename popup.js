@@ -57,13 +57,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   proUpgradeLink.addEventListener('click', (e) => { e.preventDefault(); showUpgrade(); });
   modalCloseBtn.addEventListener('click', hideUpgrade);
 
+  const CHECKOUT_URL = "https://micro-software-lab.lemonsqueezy.com/checkout/buy/3398b4ef-ca82-4a92-9bd9-af5bf314304c";
   startCheckoutBtn.addEventListener('click', () => {
-    if (confirm('Simulate purchasing NotionMark Pro lifetime license?')) {
-      chrome.storage.local.set({ notionmark_is_pro: true }, () => {
-        alert('NotionMark Pro license activated.');
-        location.reload();
-      });
-    }
+    chrome.tabs.create({ url: CHECKOUT_URL });
   });
 
   activateKeyBtn.addEventListener('click', () => {
