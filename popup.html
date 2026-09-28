@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NotionMark Pro</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="logo-mark">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">
+            <span>NotionMark</span>
+            <span class="badge-pro" id="proHeaderBadge">PRO</span>
+          </div>
+          <div class="brand-sub">Smart Markdown Clipper</div>
+        </div>
+      </div>
+      <button class="upgrade-btn" id="upgradeBtn">Upgrade</button>
+    </header>
+
+    <!-- Status Bar -->
+    <div class="status-bar" id="statusBar">
+      <div class="status-indicator"></div>
+      <span id="statusText">Scanning active page...</span>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Empty State -->
+      <div class="empty-state" id="emptyState" style="display: none;">
+        <div class="empty-icon-box">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </div>
+        <h3>No Article Detected</h3>
+        <p>Open any blog post, documentation page, or our test grounds to clip to Markdown.</p>
+        <button class="primary-btn" id="openDemoBtn">Open Test Grounds</button>
+      </div>
+
+      <!-- Article View -->
+      <div class="article-view" id="articleView" style="display: none;">
+        <!-- Article Card -->
+        <div class="article-card">
+          <div class="article-title" id="articleTitle">Article Title</div>
+          <div class="article-meta">
+            <span id="articleAuthor">Author</span>
+            <span class="meta-dot">•</span>
+            <span id="articleReadingTime">3 min read</span>
+            <span class="meta-dot">•</span>
+            <span id="articleWordCount">0 words</span>
+          </div>
+        </div>
+
+        <!-- Options Toggles -->
+        <div class="options-bar">
+          <label class="toggle-label">
+            <input type="checkbox" id="toggleFrontmatter" checked>
+            <span>YAML Frontmatter</span>
+          </label>
+          <label class="toggle-label">
+            <input type="checkbox" id="toggleTakeaways" checked>
+            <span>Key Takeaways</span>
+          </label>
+        </div>
+
+        <!-- Markdown Preview Box -->
+        <div class="preview-container">
+          <div class="preview-header">
+            <span class="preview-label">Clean Markdown Preview</span>
+            <button class="cinema-mini-btn" id="cinemaBtn" title="Open distraction-free reader on page">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              <span>Reader Mode</span>
+            </button>
+          </div>
+          <textarea id="markdownOutput" class="markdown-textarea" rows="8" readonly></textarea>
+        </div>
+
+        <!-- Actions Grid -->
+        <div class="action-grid">
+          <button class="action-btn action-primary" id="copyMarkdownBtn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            <span>Copy Markdown</span>
+          </button>
+          <button class="action-btn action-secondary" id="downloadMdBtn" title="Save directly into your Obsidian Vault">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span>Save .md</span>
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="pro-banner" id="footerBanner">
+        <span>Free tier: Basic selection clip</span>
+        <a href="#" id="proUpgradeLink" class="pro-link">Upgrade to Lifetime ($4.99)</a>
+      </div>
+    </footer>
+
+    <!-- Upgrade Modal -->
+    <div class="modal-backdrop" id="upgradeModal" style="display: none;">
+      <div class="modal-box">
+        <button class="modal-close" id="modalCloseBtn">&times;</button>
+        <h2>NotionMark Pro</h2>
+        <p class="modal-desc">Clip full web pages directly into Obsidian and Notion with auto-generated YAML frontmatter and key takeaways.</p>
+        <ul class="modal-perks">
+          <li>Full-page distraction-free clipping (ads stripped)</li>
+          <li>Auto-generated YAML frontmatter & metadata</li>
+          <li>Executive 3-bullet Key Takeaways summary</li>
+          <li>Direct .md file download into Obsidian Vaults</li>
+          <li>Distraction-free Reader Cinema Mode</li>
+          <li>Lifetime license with future updates</li>
+        </ul>
+        <div class="price-tag">
+          <span class="price-val">$4.99</span>
+          <span class="price-period">one-time payment</span>
+        </div>
+        <button class="checkout-btn" id="startCheckoutBtn">Buy Lifetime License ($4.99)</button>
+
+        <div class="license-box">
+          <div class="license-title">Already purchased? Activate key:</div>
+          <div class="license-input-row">
+            <input type="text" id="licenseKeyInput" class="license-input" placeholder="Paste license key...">
+            <button class="license-activate-btn" id="activateKeyBtn">Activate</button>
+          </div>
+          <div class="license-status" id="licenseStatus"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
